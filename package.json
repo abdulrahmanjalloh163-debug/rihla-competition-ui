@@ -7,10 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "cap:sync": "cap sync",
+    "cap:add:android": "cap add android",
+    "cap:add:ios": "cap add ios",
+    "cap:open:android": "cap open android",
+    "cap:open:ios": "cap open ios",
+    "mobile:android": "cap sync android && cap open android",
+    "mobile:ios": "cap sync ios && cap open ios"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.125.0",
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
     "@supabase/supabase-js": "^2.116.0",
     "next": "16.3.5",
     "react": "19.2.8",
@@ -18,6 +28,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24.0.0",
     "@types/react": "^19",
