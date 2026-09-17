@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GlassCard } from '../../components/GlassCard';
+import { LoadingState } from '../../components/LoadingState';
 import { getBrowserSupabase } from '../../lib/auth/browserClient';
 import { clearStoredLearnerId } from '../../lib/ui/learnerSession';
 
@@ -69,9 +70,10 @@ export default function AccountPage() {
 
   if (loading) {
     return (
-      <main className="page page-narrow" dir="rtl">
-        <GlassCard className="empty-state">جاري تحميل حسابك...</GlassCard>
-      </main>
+      <LoadingState
+        title="جاري تحميل حسابك..."
+        detail="نتحقق من حسابك ونربطه برحلتك التعليمية"
+      />
     );
   }
 
@@ -93,7 +95,7 @@ export default function AccountPage() {
 
         <button
           type="button"
-          className="gradient-button"
+          className="gradient-button secondary account-signout-button"
           onClick={handleSignOut}
           disabled={signingOut}
           style={{ marginTop: 24 }}
