@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './flow.css';
+import './spacing.css';
 import { AppShell } from '../components/AppShell';
 
 export const metadata: Metadata = {
