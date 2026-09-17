@@ -1,0 +1,380 @@
+.app-shell:has(.flow-page) {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.app-shell:has(.flow-page) .shell-content {
+  height: calc(100dvh - 76px);
+  overflow: hidden;
+}
+
+.app-shell:has(.flow-page) .footer-note {
+  display: none;
+}
+
+.flow-page {
+  height: calc(100dvh - 76px);
+  min-height: 0;
+  padding: 22px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.flow-card {
+  width: 100%;
+  max-height: calc(100dvh - 120px);
+  padding: 28px;
+  overflow: hidden;
+}
+
+.flow-muted {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.flow-large-text {
+  font-size: 18px;
+}
+
+.flow-primary {
+  margin-top: 18px;
+}
+
+.flow-stats {
+  margin-top: 20px;
+}
+
+.flow-question-shell,
+.flow-result-shell,
+.flow-dashboard-shell {
+  width: 100%;
+  max-height: calc(100dvh - 118px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.flow-progress-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.flow-progress-track {
+  height: 7px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(93,150,215,.14);
+}
+
+.flow-progress-track > div {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  transition: width .25s ease;
+}
+
+.question-stage-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 0;
+}
+
+.flow-options {
+  display: grid;
+  gap: 10px;
+}
+
+.flow-answer-input {
+  margin-top: 6px;
+}
+
+.flow-nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.flow-nav-row .gradient-button {
+  min-width: 130px;
+}
+
+.flow-mode-compact {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+}
+
+.result-one-screen {
+  display: flex;
+  align-items: center;
+}
+
+.result-one-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.05fr 1.2fr auto;
+  gap: 22px;
+  align-items: center;
+}
+
+.result-score-panel,
+.result-decision-panel {
+  min-width: 0;
+}
+
+.flow-accuracy {
+  margin-top: 18px;
+}
+
+.flow-badge-wrap {
+  margin: 12px 0;
+}
+
+.flow-screen-head,
+.flow-dashboard-head,
+.flow-skill-top,
+.flow-overview-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+}
+
+.flow-screen-head h1,
+.flow-dashboard-head h1,
+.flow-skill-top h1,
+.flow-card h1 {
+  margin: 8px 0;
+}
+
+.flow-screen-head p,
+.flow-dashboard-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.flow-diagnostic-form {
+  margin-top: 18px;
+}
+
+.flow-textarea {
+  min-height: 210px;
+  max-height: 32dvh;
+  resize: none;
+}
+
+.flow-step-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  background: rgba(8,25,45,.58);
+  border-radius: 16px;
+}
+
+.flow-step-tabs button {
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--muted);
+  padding: 10px 12px;
+}
+
+.flow-step-tabs button.active {
+  color: white;
+  background: rgba(34,211,238,.13);
+  box-shadow: inset 0 0 0 1px rgba(34,211,238,.25);
+}
+
+.progress-tabs {
+  grid-template-columns: repeat(3, minmax(0,1fr));
+}
+
+.flow-strength-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.flow-strength-item,
+.flow-metric,
+.flow-maintenance-highlight {
+  border: 1px solid var(--line);
+  background: rgba(7,21,39,.48);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.flow-strength-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.flow-strength-item span {
+  color: var(--emerald);
+  font-weight: 800;
+}
+
+.flow-strength-item p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.flow-error-card {
+  margin-top: 18px;
+}
+
+.flow-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 12px;
+}
+
+.flow-metric span {
+  color: var(--muted);
+  font-size: 13px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.flow-metric strong {
+  font-size: 24px;
+}
+
+.flow-overview-footer {
+  margin-top: 20px;
+}
+
+.flow-skill-top {
+  margin-bottom: 8px;
+}
+
+.flow-maintenance-highlight {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .flow-page {
+    padding: 12px 0;
+  }
+
+  .flow-card {
+    max-height: calc(100dvh - 100px);
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .flow-question-shell,
+  .flow-result-shell,
+  .flow-dashboard-shell {
+    max-height: calc(100dvh - 96px);
+    gap: 10px;
+  }
+
+  .result-one-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .result-one-grid > .progress-ring {
+    display: none;
+  }
+
+  .flow-overview-grid,
+  .flow-strength-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+
+  .flow-step-tabs button {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .flow-screen-head,
+  .flow-dashboard-head,
+  .flow-skill-top,
+  .flow-overview-footer {
+    align-items: flex-start;
+  }
+
+  .flow-dashboard-head .gradient-button {
+    min-height: 42px;
+    padding-inline: 16px;
+  }
+
+  .question-stage-card .exercise-question {
+    font-size: 18px;
+  }
+
+  .flow-options .option {
+    padding-block: 11px;
+  }
+
+  .flow-textarea {
+    min-height: 180px;
+    max-height: 28dvh;
+  }
+}
+
+@media (max-width: 520px) {
+  .flow-card h1,
+  .flow-screen-head h1,
+  .flow-dashboard-head h1,
+  .flow-skill-top h1 {
+    font-size: 25px;
+  }
+
+  .flow-overview-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 8px;
+  }
+
+  .flow-metric {
+    padding: 12px;
+  }
+
+  .flow-metric strong {
+    font-size: 18px;
+  }
+
+  .flow-nav-row .gradient-button {
+    min-width: 0;
+    flex: 1;
+    min-height: 46px;
+    padding-inline: 12px;
+  }
+
+  .flow-strength-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-screen-head .page-kicker {
+    display: none;
+  }
+
+  .result-one-screen {
+    align-items: stretch;
+  }
+
+  .score-big {
+    font-size: 34px;
+  }
+
+  .flow-large-text {
+    font-size: 16px;
+  }
+}
