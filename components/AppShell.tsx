@@ -27,22 +27,36 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Logo compact />
 
         <nav className="main-nav" aria-label="التنقل الرئيسي">
-          <Link className={pathname === '/' ? 'active' : ''} href="/">
+          <Link
+            className={pathname === '/' ? 'active' : ''}
+            href="/"
+            aria-current={pathname === '/' ? 'page' : undefined}
+          >
             الرئيسية
           </Link>
-          <Link className={pathname === '/practice' ? 'active' : ''} href={practiceHref}>
+          <Link
+            className={pathname === '/practice' ? 'active' : ''}
+            href={practiceHref}
+            aria-current={pathname === '/practice' ? 'page' : undefined}
+          >
             التدريب
           </Link>
-          <Link className={pathname === '/progress' ? 'active' : ''} href={progressHref}>
+          <Link
+            className={pathname === '/progress' ? 'active' : ''}
+            href={progressHref}
+            aria-current={pathname === '/progress' ? 'page' : undefined}
+          >
             التقدّم
           </Link>
         </nav>
 
         <div className="nav-actions">
           <Link
-            className={`text-button ${pathname === '/account' ? 'active' : ''}`}
+            className={`account-button ${pathname === '/account' ? 'active' : ''}`}
             href="/account"
+            aria-current={pathname === '/account' ? 'page' : undefined}
           >
+            <span className="account-dot" aria-hidden="true" />
             حسابي
           </Link>
           <span className="ai-chip mini"><i /> AI</span>
