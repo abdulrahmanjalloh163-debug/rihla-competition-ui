@@ -5,7 +5,9 @@ import { useStoredLearnerId } from '../lib/ui/learnerSession';
 
 export default function Home() {
   const learnerId = useStoredLearnerId();
-  const primaryHref = learnerId ? `/practice?learnerId=${encodeURIComponent(learnerId)}` : '/onboarding';
+  const primaryHref = learnerId
+    ? `/practice?learnerId=${encodeURIComponent(learnerId)}`
+    : '/auth';
 
   return (
     <main className="page hero" dir="rtl">
