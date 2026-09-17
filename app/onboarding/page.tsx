@@ -6,6 +6,7 @@ import type { ArabicLevel, LearningGoal } from '../../lib/types';
 import { GlassCard } from '../../components/GlassCard';
 import { GOAL_LABEL, LEVEL_LABEL } from '../../lib/ui/labels';
 import { storeLearnerId } from '../../lib/ui/learnerSession';
+import { getBrowserSupabase } from '../../lib/auth/browserClient';
 
 const LEVELS: ArabicLevel[] = ['Beginner', 'Elementary', 'Intermediate', 'Upper Intermediate', 'Advanced'];
 const GOALS: LearningGoal[] = ['Speaking', 'Writing', 'Reading', 'Understanding Arabic', 'General Arabic'];
@@ -22,16 +23,37 @@ export default function OnboardingPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
     try {
+      const supabase = getBrowserSupabase();
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !sessionData.session) {
+        router.push('/auth');
+        return;
+      }
+
       const res = await fetch('/api/onboard', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, self_reported_level: level, learning_goal: goal }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionData.session.access_token}`,
+        },
+        body: JSON.stringify({
+          name,
+          self_reported_level: level,
+          learning_goal: goal,
+        }),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'تعذّر إنشاء ملف المتعلّم');
+
+      if (!res.ok) {
+        throw new Error(data.error ?? 'تعذّر إنشاء ملف المتعلّم');
+      }
+
       storeLearnerId(data.learner.id);
-      router.push(`/diagnostic?learnerId=${data.learner.id}`);
+      router.push(`/diagnostic?learnerId=${encodeURIComponent(data.learner.id)}`);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -47,18 +69,70 @@ export default function OnboardingPage() {
           <h1>لنبنِ ملفك اللغوي</h1>
           <p>أخبر رِحلة بمستواك وهدفك. بعد ذلك تبدأ بتقييم قصير يساعد النظام على بناء أول صورة عن أدائك.</p>
           <div className="steps" style={{ gridTemplateColumns: '1fr', marginTop: 24 }}>
-            <article className="step-card"><strong>خصوصية النموذج الأولي</strong><small>يُحفظ معرّف المتعلّم محليًا في هذا المتصفح لتتمكن من متابعة رحلتك عند العودة.</small></article>
+            <article className="step-card">
+              <strong>حساب واحد، رحلة واحدة</strong>
+              <small>يرتبط ملفك بحسابك لتستطيع متابعة تقدّمك من الهاتف أو الكمبيوتر.</small>
+            </article>
           </div>
         </GlassCard>
 
         <GlassCard className="form-card emphasis">
-          <div className="section-head"><div><span className="eyebrow">LEARNER PROFILE</span><h2>إعداد المتعلّم</h2></div></div>
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">LEARNER PROFILE</span>
+              <h2>إعداد المتعلّم</h2>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="form-stack">
-            <label><span className="field-label">الاسم</span><input className="tech-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="اكتب اسمك" required /></label>
-            <div><span className="field-label">مستواك الحالي</span><div className="choice-grid">{LEVELS.map((item) => <button type="button" key={item} className={`choice-pill ${level === item ? 'active' : ''}`} onClick={() => setLevel(item)}>{LEVEL_LABEL[item]}</button>)}</div></div>
-            <div><span className="field-label">هدفك الأساسي</span><div className="choice-grid">{GOALS.map((item) => <button type="button" key={item} className={`choice-pill ${goal === item ? 'active' : ''}`} onClick={() => setGoal(item)}>{GOAL_LABEL[item]}</button>)}</div></div>
+            <label>
+              <span className="field-label">الاسم</span>
+              <input
+                className="tech-input"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="اكتب اسمك"
+                required
+              />
+            </label>
+
+            <div>
+              <span className="field-label">مستواك الحالي</span>
+              <div className="choice-grid">
+                {LEVELS.map((item) => (
+                  <button
+                    type="button"
+                    key={item}
+                    className={`choice-pill ${level === item ? 'active' : ''}`}
+                    onClick={() => setLevel(item)}
+                  >
+                    {LEVEL_LABEL[item]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <span className="field-label">هدفك الأساسي</span>
+              <div className="choice-grid">
+                {GOALS.map((item) => (
+                  <button
+                    type="button"
+                    key={item}
+                    className={`choice-pill ${goal === item ? 'active' : ''}`}
+                    onClick={() => setGoal(item)}
+                  >
+                    {GOAL_LABEL[item]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {error && <p className="form-error">{error}</p>}
-            <button type="submit" disabled={loading} className="gradient-button">{loading ? 'جاري إنشاء رحلتك...' : 'ابدأ التقييم'}</button>
+
+            <button type="submit" disabled={loading} className="gradient-button">
+              {loading ? 'جاري إنشاء رحلتك...' : 'ابدأ التقييم'}
+            </button>
           </form>
         </GlassCard>
       </div>
