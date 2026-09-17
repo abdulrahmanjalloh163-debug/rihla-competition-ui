@@ -1,0 +1,571 @@
+/* Final spacing and sizing polish for the one-screen app experience. */
+
+/* Desktop proportions */
+.flow-page {
+  padding-block: 18px;
+}
+
+.page-narrow.flow-page {
+  width: min(900px, calc(100% - 40px));
+}
+
+.flow-card {
+  padding: 34px;
+  border-radius: 26px;
+}
+
+.flow-question-shell,
+.flow-result-shell,
+.flow-dashboard-shell {
+  gap: 16px;
+}
+
+/* Give intro/training cards more presence without creating scroll. */
+.flow-page .practice-intro-top,
+.flow-screen-head,
+.flow-dashboard-head,
+.flow-skill-top,
+.flow-overview-footer {
+  gap: 24px;
+}
+
+.flow-card h1,
+.flow-screen-head h1,
+.flow-dashboard-head h1,
+.flow-skill-top h1 {
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.25;
+  letter-spacing: -.025em;
+}
+
+.flow-muted,
+.practice-reason,
+.flow-screen-head p,
+.flow-dashboard-head p {
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+/* Training intro */
+.flow-stats {
+  margin-top: 24px;
+  gap: 12px;
+}
+
+.flow-stats .mini-stat {
+  padding: 17px 16px;
+  min-height: 74px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flow-stats .mini-stat span {
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.flow-stats .mini-stat strong {
+  font-size: 15px;
+}
+
+.practice-reason {
+  margin-top: 18px;
+  max-width: 720px;
+}
+
+.flow-primary {
+  min-width: 180px;
+  min-height: 54px;
+  margin-top: 24px;
+}
+
+/* Question screen */
+.flow-progress-head {
+  font-size: 14px;
+  padding-inline: 2px;
+}
+
+.flow-progress-track {
+  height: 8px;
+}
+
+.question-stage-card {
+  padding: 32px 34px;
+  gap: 22px;
+}
+
+.question-stage-card .exercise-head {
+  gap: 18px;
+  align-items: center;
+}
+
+.question-stage-card .exercise-number {
+  width: 38px;
+  height: 38px;
+  font-size: 15px;
+}
+
+.question-stage-card .exercise-instruction {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.question-stage-card .exercise-question {
+  font-size: clamp(22px, 2.6vw, 28px);
+  line-height: 1.55;
+}
+
+.flow-options {
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.flow-options .option {
+  min-height: 58px;
+  padding: 15px 17px;
+  border-radius: 15px;
+  font-size: 16px;
+}
+
+.flow-options .option-letter {
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+}
+
+.flow-answer-input {
+  min-height: 56px;
+  font-size: 17px;
+  padding-inline: 18px;
+}
+
+.flow-nav-row {
+  margin-top: 22px;
+  gap: 14px;
+}
+
+.flow-nav-row .gradient-button {
+  min-width: 145px;
+  min-height: 52px;
+}
+
+/* Diagnostic */
+.flow-diagnostic-form {
+  margin-top: 22px;
+  gap: 18px;
+}
+
+.flow-textarea {
+  min-height: 230px;
+  padding: 18px 20px;
+  font-size: 17px;
+  line-height: 2;
+}
+
+.flow-step-tabs {
+  padding: 7px;
+  gap: 7px;
+  border-radius: 18px;
+}
+
+.flow-step-tabs button {
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.flow-strength-grid {
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.flow-strength-item {
+  min-height: 90px;
+  padding: 19px;
+}
+
+.flow-error-card {
+  margin-top: 20px;
+  padding: 24px;
+}
+
+/* Results */
+.result-one-screen {
+  padding: 34px;
+}
+
+.result-one-grid {
+  grid-template-columns: 1fr 1.25fr auto;
+  gap: 28px;
+}
+
+.result-score-panel .score-big {
+  font-size: clamp(44px, 5vw, 60px);
+  line-height: 1.1;
+}
+
+.result-score-panel .score-percent {
+  font-size: 18px;
+  margin-top: 9px;
+}
+
+.flow-accuracy {
+  margin-top: 22px;
+  gap: 24px;
+}
+
+.result-decision-panel h2 {
+  font-size: 27px;
+  line-height: 1.35;
+  margin: 12px 0 10px;
+}
+
+.result-decision-panel .gradient-button {
+  min-height: 54px;
+  margin-top: 20px;
+}
+
+/* Progress dashboard */
+.flow-dashboard-shell {
+  width: min(980px, 100%);
+}
+
+.flow-dashboard-head h1 {
+  margin-top: 6px;
+}
+
+.flow-dashboard-head .gradient-button {
+  min-height: 50px;
+  padding-inline: 22px;
+}
+
+.progress-overview-card,
+.flow-dashboard-shell > .flow-card {
+  padding: 30px 32px;
+}
+
+.flow-overview-grid {
+  gap: 14px;
+}
+
+.flow-metric {
+  min-height: 105px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flow-metric span {
+  font-size: 12px;
+  margin-bottom: 9px;
+}
+
+.flow-metric strong {
+  font-size: 26px;
+}
+
+.flow-overview-footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(93,150,215,.14);
+}
+
+.flow-skill-top {
+  margin-bottom: 14px;
+}
+
+.flow-maintenance-highlight {
+  margin-top: 24px;
+  padding: 20px;
+}
+
+/* Account screen */
+.account-card {
+  width: min(680px, 100%);
+  padding: 36px;
+}
+
+.account-card h1 {
+  margin: 16px 0 8px;
+}
+
+.account-profile-row,
+.account-email-card {
+  margin-top: 22px;
+}
+
+.account-signout-button {
+  min-height: 50px;
+  padding-inline: 22px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .page-narrow.flow-page {
+    width: min(760px, calc(100% - 28px));
+  }
+
+  .flow-card {
+    padding: 26px;
+  }
+
+  .question-stage-card {
+    padding: 26px;
+  }
+
+  .result-one-grid {
+    gap: 20px;
+  }
+
+  .flow-metric {
+    min-height: 92px;
+  }
+}
+
+/* Phones */
+@media (max-width: 760px) {
+  .flow-page {
+    padding-block: 10px;
+  }
+
+  .page-narrow.flow-page,
+  .flow-page {
+    width: min(100% - 18px, 1120px);
+  }
+
+  .flow-card,
+  .question-stage-card,
+  .result-one-screen,
+  .progress-overview-card,
+  .flow-dashboard-shell > .flow-card,
+  .account-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .flow-card h1,
+  .flow-screen-head h1,
+  .flow-dashboard-head h1,
+  .flow-skill-top h1 {
+    font-size: 24px;
+  }
+
+  .flow-muted,
+  .practice-reason,
+  .flow-screen-head p,
+  .flow-dashboard-head p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .flow-stats {
+    margin-top: 14px;
+    gap: 8px;
+  }
+
+  .flow-stats .mini-stat {
+    min-height: 60px;
+    padding: 11px 12px;
+  }
+
+  .practice-reason {
+    margin-top: 12px;
+  }
+
+  .flow-primary {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 16px;
+  }
+
+  .question-stage-card {
+    gap: 15px;
+  }
+
+  .question-stage-card .exercise-head {
+    gap: 12px;
+  }
+
+  .question-stage-card .exercise-number {
+    width: 32px;
+    height: 32px;
+  }
+
+  .question-stage-card .exercise-question {
+    font-size: 19px;
+  }
+
+  .flow-options {
+    gap: 8px;
+  }
+
+  .flow-options .option {
+    min-height: 50px;
+    padding: 11px 13px;
+    font-size: 15px;
+  }
+
+  .flow-options .option-letter {
+    width: 26px;
+    height: 26px;
+  }
+
+  .flow-nav-row {
+    margin-top: 14px;
+    gap: 9px;
+  }
+
+  .flow-nav-row .gradient-button {
+    min-height: 46px;
+    min-width: 0;
+  }
+
+  .flow-textarea {
+    min-height: 180px;
+    max-height: 28dvh;
+    padding: 14px 15px;
+    font-size: 16px;
+  }
+
+  .flow-step-tabs {
+    padding: 5px;
+    gap: 4px;
+  }
+
+  .flow-step-tabs button {
+    min-height: 39px;
+    padding: 7px 5px;
+    font-size: 11px;
+  }
+
+  .result-one-grid {
+    gap: 13px;
+  }
+
+  .result-score-panel .score-big {
+    font-size: 36px;
+  }
+
+  .flow-accuracy {
+    margin-top: 14px;
+    gap: 13px;
+  }
+
+  .result-decision-panel h2 {
+    font-size: 21px;
+    margin-block: 8px;
+  }
+
+  .result-decision-panel .gradient-button {
+    min-height: 48px;
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .flow-dashboard-head {
+    gap: 12px;
+  }
+
+  .flow-dashboard-head .gradient-button {
+    min-height: 42px;
+    padding-inline: 14px;
+  }
+
+  .flow-overview-grid {
+    gap: 8px;
+  }
+
+  .flow-metric {
+    min-height: 76px;
+    padding: 12px;
+  }
+
+  .flow-metric strong {
+    font-size: 18px;
+  }
+
+  .flow-overview-footer {
+    margin-top: 14px;
+    padding-top: 14px;
+  }
+
+  .flow-maintenance-highlight {
+    margin-top: 14px;
+    padding: 14px;
+  }
+}
+
+/* Very small phones / short screens: compact enough to stay one-screen. */
+@media (max-width: 430px), (max-height: 680px) {
+  .flow-card,
+  .question-stage-card,
+  .result-one-screen,
+  .progress-overview-card,
+  .flow-dashboard-shell > .flow-card,
+  .account-card {
+    padding: 14px;
+  }
+
+  .flow-card h1,
+  .flow-screen-head h1,
+  .flow-dashboard-head h1,
+  .flow-skill-top h1 {
+    font-size: 21px;
+    margin-block: 5px;
+  }
+
+  .flow-stats .mini-stat {
+    min-height: 52px;
+    padding: 8px 9px;
+  }
+
+  .flow-stats .mini-stat span {
+    font-size: 10px;
+    margin-bottom: 3px;
+  }
+
+  .flow-stats .mini-stat strong {
+    font-size: 13px;
+  }
+
+  .question-stage-card .exercise-question {
+    font-size: 17px;
+  }
+
+  .flow-options .option {
+    min-height: 44px;
+    padding: 9px 11px;
+  }
+
+  .flow-progress-head {
+    font-size: 11px;
+  }
+
+  .flow-nav-row {
+    margin-top: 10px;
+  }
+
+  .flow-nav-row .gradient-button {
+    min-height: 42px;
+    font-size: 13px;
+  }
+
+  .flow-textarea {
+    min-height: 145px;
+  }
+
+  .flow-strength-item,
+  .flow-error-card,
+  .flow-maintenance-highlight {
+    padding: 12px;
+  }
+
+  .flow-metric {
+    min-height: 66px;
+    padding: 9px;
+  }
+}
