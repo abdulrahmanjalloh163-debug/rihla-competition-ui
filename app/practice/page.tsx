@@ -331,14 +331,6 @@ function PracticeFlow() {
     }
   }
 
-  /*
-   * Check for missing learner ID BEFORE
-   * displaying the loading screen.
-   *
-   * This avoids needing to call
-   * setLoading(false) synchronously
-   * inside useEffect.
-   */
   if (!learnerId) {
     return (
       <main className="page page-narrow">
@@ -373,10 +365,54 @@ function PracticeFlow() {
     );
   }
 
-  /*
-   * No category means that there is
-   * currently no active weakness.
-   */
+  if (
+    decision.action ===
+    'diagnostic_practice'
+  ) {
+    return (
+      <main
+        className="page page-narrow"
+        dir="rtl"
+      >
+        <GlassCard className="mastery-card">
+          <div className="mastery-icon">
+            ◇
+          </div>
+
+          <span className="eyebrow">
+            التقييم التشخيصي
+          </span>
+
+          <h1>
+            نحتاج أولًا إلى التعرّف على مستواك
+          </h1>
+
+          <p
+            style={{
+              color:
+                'var(--muted)',
+              lineHeight: 1.8,
+            }}
+          >
+            لا توجد أدلة كافية عن أدائك بعد. أكمل التقييم التشخيصي حتى تتمكن رِحلة من بناء ملفك اللغوي واختيار التدريب المناسب لك.
+          </p>
+
+          <a
+            href={`/diagnostic?learnerId=${encodeURIComponent(
+              learnerId
+            )}`}
+            className="gradient-button"
+            style={{
+              marginTop: 20,
+            }}
+          >
+            ابدأ التقييم التشخيصي
+          </a>
+        </GlassCard>
+      </main>
+    );
+  }
+
   if (!decision.category) {
     return (
       <main className="page page-narrow">
@@ -400,7 +436,11 @@ function PracticeFlow() {
               lineHeight: 1.8,
             }}
           >
-            {decision.reason}
+            {arabicizeDisplayText(
+              adaptiveReasonAr(
+                decision
+              )
+            )}
           </p>
         </GlassCard>
       </main>
