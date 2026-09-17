@@ -3,8 +3,6 @@ import { deriveWeaknessStatus, recalculateWeakness, computeAccuracy } from '../l
 
 describe('deriveWeaknessStatus', () => {
   it('stays potential after a single diagnostic with 3+ errors (locked rule #7)', () => {
-    // One diagnostic attempt, 3 errors detected in one category.
-    // Must NOT be confirmed as a weakness yet — only 1 evidence event.
     const status = deriveWeaknessStatus({
       error_count: 3,
       attempt_count: 1,
@@ -14,12 +12,32 @@ describe('deriveWeaknessStatus', () => {
     expect(status).toBe('potential');
   });
 
-  it('stays potential with 2 attempts but fewer than 3 errors', () => {
+  it('stays potential with 2 attempts but fewer than 3 errors when practice evidence is still insufficient', () => {
     const status = deriveWeaknessStatus({
       error_count: 2,
       attempt_count: 2,
-      relevant_question_count: 0,
-      correct_count: 0,
+      relevant_question_count: 5,
+      correct_count: 5,
+    });
+    expect(status).toBe('potential');
+  });
+
+  it('resolves a potential weakness as mastered after strong practice evidence', () => {
+    const status = deriveWeaknessStatus({
+      error_count: 2,
+      attempt_count: 3,
+      relevant_question_count: 10,
+      correct_count: 10,
+    });
+    expect(status).toBe('mastered');
+  });
+
+  it('does not resolve a potential weakness as mastered below 90% accuracy', () => {
+    const status = deriveWeaknessStatus({
+      error_count: 2,
+      attempt_count: 3,
+      relevant_question_count: 10,
+      correct_count: 8,
     });
     expect(status).toBe('potential');
   });
@@ -39,7 +57,7 @@ describe('deriveWeaknessStatus', () => {
       error_count: 5,
       attempt_count: 2,
       relevant_question_count: 5,
-      correct_count: 2, // 40%
+      correct_count: 2,
     });
     expect(status).toBe('needs_practice');
   });
@@ -49,7 +67,7 @@ describe('deriveWeaknessStatus', () => {
       error_count: 4,
       attempt_count: 2,
       relevant_question_count: 5,
-      correct_count: 4, // 80%
+      correct_count: 4,
     });
     expect(status).toBe('improving');
   });
@@ -59,7 +77,7 @@ describe('deriveWeaknessStatus', () => {
       error_count: 3,
       attempt_count: 2,
       relevant_question_count: 5,
-      correct_count: 5, // 100% but only 5 questions
+      correct_count: 5,
     });
     expect(status).toBe('improving');
   });
@@ -69,20 +87,17 @@ describe('deriveWeaknessStatus', () => {
       error_count: 3,
       attempt_count: 3,
       relevant_question_count: 10,
-      correct_count: 9, // 90%
+      correct_count: 9,
     });
     expect(status).toBe('mastered');
   });
 
   it('Rule G: a previously-mastered category reverts on decline (pure re-derivation)', () => {
-    // Simulate accumulated state that used to be mastered, then a
-    // bad session drags relevant_question_count/correct_count so
-    // accuracy falls back under the improving threshold.
     const declined = deriveWeaknessStatus({
       error_count: 8,
       attempt_count: 4,
       relevant_question_count: 15,
-      correct_count: 6, // 40%
+      correct_count: 6,
     });
     expect(declined).toBe('needs_practice');
   });
@@ -107,7 +122,7 @@ describe('recalculateWeakness', () => {
       practice_error_count: 0,
       attempt_count: 2,
       relevant_question_count: 5,
-      correct_count: 1, // 20%
+      correct_count: 1,
       last_detected: new Date().toISOString(),
     });
     expect(result.error_count).toBe(3);
@@ -120,15 +135,14 @@ describe('recalculateWeakness', () => {
     const result = recalculateWeakness({
       category: 'حروف الجر',
       learner_id: 'learner-1',
-      diagnostic_error_count: 3, // from the diagnostic
-      practice_error_count: 2, // from wrong exercise answers
+      diagnostic_error_count: 3,
+      practice_error_count: 2,
       attempt_count: 2,
       relevant_question_count: 5,
       correct_count: 3,
       last_detected: new Date().toISOString(),
     });
     expect(result.error_count).toBe(5);
-    // confirmed (5 >= 3 errors, 2 >= 2 attempts) and 60% accuracy -> needs_practice
     expect(result.status).toBe('needs_practice');
   });
 
@@ -138,12 +152,28 @@ describe('recalculateWeakness', () => {
       learner_id: 'learner-1',
       diagnostic_error_count: 3,
       practice_error_count: 0,
-      attempt_count: 1, // only one evidence event so far
+      attempt_count: 1,
       relevant_question_count: 0,
       correct_count: 0,
       last_detected: new Date().toISOString(),
     });
     expect(result.error_count).toBe(3);
     expect(result.status).toBe('potential');
+  });
+
+  it('resolves a diagnostic suspicion after 10 perfect practice questions', () => {
+    const result = recalculateWeakness({
+      category: 'التذكير والتأنيث',
+      learner_id: 'learner-1',
+      diagnostic_error_count: 2,
+      practice_error_count: 0,
+      attempt_count: 3,
+      relevant_question_count: 10,
+      correct_count: 10,
+      last_detected: new Date().toISOString(),
+    });
+    expect(result.error_count).toBe(2);
+    expect(result.accuracy).toBe(1);
+    expect(result.status).toBe('mastered');
   });
 });
