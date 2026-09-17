@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createLearner } from '../../../lib/db/learners';
+import { createLearner, getLearnerByAuthUserId } from '../../../lib/db/learners';
+import { requireAuthUser } from '../../../lib/auth/serverAuth';
 import type { ArabicLevel, LearningGoal } from '../../../lib/types';
 
 const VALID_LEVELS: ArabicLevel[] = [
@@ -20,6 +21,13 @@ const VALID_GOALS: LearningGoal[] = [
 
 export async function POST(req: NextRequest) {
   try {
+    const user = await requireAuthUser(req.headers.get('authorization'));
+
+    const existingLearner = await getLearnerByAuthUserId(user.id);
+    if (existingLearner) {
+      return NextResponse.json({ learner: existingLearner }, { status: 200 });
+    }
+
     const body = await req.json();
     const { name, self_reported_level, learning_goal } = body ?? {};
 
@@ -33,9 +41,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'invalid learning_goal' }, { status: 400 });
     }
 
-    const learner = await createLearner({ name: name.trim(), self_reported_level, learning_goal });
+    const learner = await createLearner({
+      name: name.trim(),
+      self_reported_level,
+      learning_goal,
+      auth_user_id: user.id,
+    });
+
     return NextResponse.json({ learner }, { status: 201 });
   } catch (err) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    const message = (err as Error).message;
+
+    if (message === 'UNAUTHORIZED') {
+      return NextResponse.json({ error: 'يجب تسجيل الدخول أولًا' }, { status: 401 });
+    }
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
