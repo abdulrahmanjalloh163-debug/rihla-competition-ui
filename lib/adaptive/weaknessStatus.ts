@@ -15,14 +15,19 @@ import type { Weakness, WeaknessStatus } from '../types';
  * one diagnostic submission and/or each completed practice session —
  * not individual exercises.
  *
- * Until confirmed, the category is 'potential': a pattern the engine
- * should monitor and gather more evidence on, never treated as an
- * actionable weakness for exercise targeting priority purposes.
+ * Until confirmed, the category is normally 'potential': a pattern
+ * the engine should monitor and gather more evidence on.
+ *
+ * However, a potential weakness must not stay under observation
+ * forever when repeated practice strongly disproves it. If the learner
+ * reaches the normal mastery evidence threshold (>=90% accuracy across
+ * >=10 relevant questions), the category is resolved as mastered even
+ * if the original diagnostic error count never reached 3.
  *
  * Once confirmed, status is driven by exercise-based accuracy
  * (relevant_question_count / correct_count), per spec §11:
- *   accuracy < 70%                                -> needs_practice
- *   70% <= accuracy < 90%                          -> improving
+ *   accuracy < 70%                                  -> needs_practice
+ *   70% <= accuracy < 90%                           -> improving
  *   accuracy >= 90% AND relevant_question_count>=10 -> mastered
  *
  * Rule G (decline): this function is pure and re-derives status from
@@ -36,25 +41,39 @@ export function deriveWeaknessStatus(
     'error_count' | 'attempt_count' | 'relevant_question_count' | 'correct_count'
   >
 ): WeaknessStatus {
-  const { MIN_WEAKNESS_ERRORS, MIN_WEAKNESS_ATTEMPTS, MASTERY_ACCURACY, MASTERY_MIN_QUESTIONS, IMPROVING_ACCURACY } =
-    ADAPTIVE_THRESHOLDS;
+  const {
+    MIN_WEAKNESS_ERRORS,
+    MIN_WEAKNESS_ATTEMPTS,
+    MASTERY_ACCURACY,
+    MASTERY_MIN_QUESTIONS,
+    IMPROVING_ACCURACY,
+  } = ADAPTIVE_THRESHOLDS;
+
+  const accuracy = computeAccuracy(
+    counters.correct_count,
+    counters.relevant_question_count
+  );
+
+  const hasStrongDisconfirmingEvidence =
+    accuracy >= MASTERY_ACCURACY &&
+    counters.relevant_question_count >= MASTERY_MIN_QUESTIONS;
 
   const confirmed =
     counters.error_count >= MIN_WEAKNESS_ERRORS &&
     counters.attempt_count >= MIN_WEAKNESS_ATTEMPTS;
 
   if (!confirmed) {
-    return 'potential';
+    return hasStrongDisconfirmingEvidence ? 'mastered' : 'potential';
   }
 
-  const accuracy = computeAccuracy(counters.correct_count, counters.relevant_question_count);
-
-  if (accuracy >= MASTERY_ACCURACY && counters.relevant_question_count >= MASTERY_MIN_QUESTIONS) {
+  if (hasStrongDisconfirmingEvidence) {
     return 'mastered';
   }
+
   if (accuracy >= IMPROVING_ACCURACY) {
     return 'improving';
   }
+
   return 'needs_practice';
 }
 
