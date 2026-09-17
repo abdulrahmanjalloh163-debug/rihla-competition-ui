@@ -267,6 +267,223 @@
   justify-content: space-between;
 }
 
+/* Stronger navigation hierarchy */
+.main-nav a {
+  position: relative;
+  font-weight: 650;
+}
+
+.main-nav a.active {
+  color: #fff;
+  background: linear-gradient(135deg, rgba(34,211,238,.18), rgba(117,103,255,.14));
+  box-shadow: inset 0 0 0 1px rgba(34,211,238,.42), 0 8px 24px rgba(34,211,238,.08);
+}
+
+.main-nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: var(--cyan);
+  box-shadow: 0 0 10px rgba(34,211,238,.8);
+}
+
+.account-button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(8,25,45,.5);
+  font-size: 13px;
+  font-weight: 700;
+  transition: .2s ease;
+}
+
+.account-button:hover,
+.account-button.active {
+  color: #fff;
+  border-color: rgba(34,211,238,.42);
+  background: rgba(34,211,238,.1);
+}
+
+.account-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 10px rgba(45,212,168,.65);
+}
+
+/* Stronger action hierarchy */
+.flow-nav-row .gradient-button:not(.secondary),
+.flow-primary,
+.result-decision-panel .gradient-button,
+.flow-dashboard-head .gradient-button {
+  box-shadow: 0 16px 38px rgba(34,211,238,.2);
+}
+
+.flow-nav-row .gradient-button.secondary,
+.account-signout-button {
+  background: rgba(9,24,44,.72);
+  border: 1px solid rgba(93,150,215,.28);
+  color: #c5d3e2;
+  box-shadow: none;
+}
+
+.flow-nav-row .gradient-button.secondary:hover,
+.account-signout-button:hover {
+  border-color: rgba(147,168,193,.42);
+  background: rgba(15,38,68,.82);
+  box-shadow: none;
+}
+
+/* Branded loading states */
+.loader-stack,
+.loading-state-card {
+  width: min(520px, 100%);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.loader-stack {
+  min-height: 220px;
+  justify-content: center;
+  padding: 28px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(12,31,54,.9), rgba(9,24,44,.78));
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(34,211,238,.04);
+}
+
+.loader-stack::before {
+  content: "رِحلة";
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.loader-stack::after {
+  content: "نُحضّر تجربتك الذكية";
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.loader-stack .spinner {
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+  box-shadow: 0 0 20px rgba(34,211,238,.12);
+}
+
+.loading-state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-state-card h2 {
+  margin: 10px 0 6px;
+}
+
+.loading-state-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.loading-brand-mark {
+  position: relative;
+  width: 72px;
+  height: 54px;
+  margin-bottom: 16px;
+}
+
+.loading-brand-mark::before {
+  content: "";
+  position: absolute;
+  width: 42px;
+  height: 4px;
+  left: 15px;
+  top: 25px;
+  border-radius: 999px;
+  transform: rotate(-44deg);
+  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  box-shadow: 0 0 20px rgba(34,211,238,.45);
+}
+
+.loading-brand-mark span {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 14px rgba(34,211,238,.75);
+  animation: loadingNode 1.4s ease-in-out infinite;
+}
+
+.loading-brand-mark span:nth-child(1) { left: 8px; bottom: 6px; }
+.loading-brand-mark span:nth-child(2) { left: 31px; top: 21px; animation-delay: .18s; }
+.loading-brand-mark span:nth-child(3) { right: 7px; top: 3px; background: var(--violet); animation-delay: .36s; }
+
+.loading-progress {
+  width: min(280px, 82%);
+  height: 6px;
+  margin-top: 22px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(93,150,215,.13);
+}
+
+.loading-progress span {
+  display: block;
+  width: 38%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  animation: loadingSweep 1.35s ease-in-out infinite;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.loading-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: loadingDot 1.1s ease-in-out infinite;
+}
+
+.loading-dots i:nth-child(2) { animation-delay: .14s; }
+.loading-dots i:nth-child(3) { animation-delay: .28s; }
+
+@keyframes loadingNode {
+  0%, 100% { transform: scale(.8); opacity: .45; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes loadingSweep {
+  0% { transform: translateX(180%); }
+  100% { transform: translateX(-280%); }
+}
+
+@keyframes loadingDot {
+  0%, 100% { opacity: .3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+}
+
 @media (max-width: 760px) {
   .flow-page {
     padding: 12px 0;
@@ -328,6 +545,37 @@
     min-height: 180px;
     max-height: 28dvh;
   }
+
+  /* Keep account access available on phones. */
+  .topbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .nav-actions {
+    display: flex;
+  }
+
+  .nav-actions .ai-chip {
+    display: none;
+  }
+
+  .main-nav {
+    width: 100%;
+    max-width: 430px;
+  }
+
+  .main-nav a {
+    flex: 1;
+    text-align: center;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .account-button {
+    min-height: 44px;
+  }
 }
 
 @media (max-width: 520px) {
@@ -376,5 +624,70 @@
 
   .flow-large-text {
     font-size: 16px;
+  }
+
+  .topbar {
+    padding-inline: 10px;
+  }
+
+  .account-button {
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+
+  .main-nav {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .main-nav a {
+    padding-inline: 8px;
+  }
+
+  .loader-stack,
+  .loading-state-card {
+    width: 100%;
+  }
+}
+
+/* Short-screen safeguards for compact phones and landscape mode. */
+@media (max-height: 700px) {
+  .flow-page {
+    align-items: stretch;
+  }
+
+  .flow-card,
+  .flow-question-shell,
+  .flow-result-shell,
+  .flow-dashboard-shell {
+    max-height: calc(100dvh - 92px);
+  }
+
+  .mode-banner.flow-mode-compact {
+    display: none;
+  }
+
+  .flow-progress-head,
+  .practice-reason {
+    font-size: 12px;
+  }
+
+  .question-stage-card .exercise-question {
+    font-size: 17px;
+  }
+
+  .flow-step-tabs button {
+    min-height: 38px;
+  }
+}
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  .topbar {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+
+  .flow-page {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 }
