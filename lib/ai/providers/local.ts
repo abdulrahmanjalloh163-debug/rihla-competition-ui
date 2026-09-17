@@ -33,7 +33,8 @@ export const localProvider: LLMProvider = {
 };
 
 function analyzeLocally(userPrompt: string) {
-  const text = extractLearnerText(userPrompt);
+  const originalText = extractLearnerText(userPrompt);
+  const text = normalizeArabicForMatching(originalText);
 
   const errors = [];
 
@@ -61,7 +62,7 @@ function analyzeLocally(userPrompt: string) {
   }
 
   // التذكير والتأنيث
-  if (/كتاب(?:ًا|اً)?\s+جديدة/.test(text)) {
+  if (/كتابا?\s+جديدة/.test(text)) {
     errors.push({
       category: 'التذكير والتأنيث',
       original_text: 'كتابًا جديدة',
@@ -70,6 +71,19 @@ function analyzeLocally(userPrompt: string) {
         'كلمة «كتاب» مذكر، لذلك يجب أن تكون الصفة «جديدًا».',
       explanation_en:
         'The noun «كتاب» is masculine, so the adjective should be «جديدًا».',
+      confidence: 0.99,
+    });
+  }
+
+  if (/هذه\s+كتاب(?:\s+جديد)?/.test(text)) {
+    errors.push({
+      category: 'التذكير والتأنيث',
+      original_text: 'هذه كتاب',
+      correction: 'هذا كتاب',
+      explanation_ar:
+        'كلمة «كتاب» مذكر، لذلك نستخدم اسم الإشارة «هذا» لا «هذه».',
+      explanation_en:
+        'The noun «كتاب» is masculine, so use «هذا» rather than «هذه».',
       confidence: 0.99,
     });
   }
@@ -310,4 +324,24 @@ function extractLearnerText(userPrompt: string): string {
   }
 
   return userPrompt.slice(index + marker.length).trim();
+}
+
+/**
+ * Normalize learner Arabic before deterministic matching.
+ *
+ * This intentionally removes tashkeel and Quranic-style combining
+ * marks so the same diagnostic rules work for both:
+ *
+ *   ذهبت في المسجد
+ *   ذَهَبْتُ فِي الْمَسْجِدِ
+ *
+ * It also removes tatweel and normalizes common spacing noise.
+ */
+function normalizeArabicForMatching(input: string): string {
+  return input
+    .normalize('NFKD')
+    .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
+    .replace(/ـ/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
